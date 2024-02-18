@@ -22,7 +22,7 @@
 - **Middleware:** `auth:sanctum`
 - **Parameters:**
   - `{id}`: User ID (integer)
-  - `{with}`: Additional data to include (e.g., 'permissions', 'roles')
+  - `{with}`: Additional related data to include ('completed_devices','devices','permissions','orders')
 - **Description:** Retrieve details about a specific user.
 
 ### Show Client
@@ -30,7 +30,7 @@
 - **Middleware:** `auth:sanctum`
 - **Parameters:**
   - `{id}`: Client ID (integer)
-  - `{with}`: Additional data to include (e.g., 'orders', 'services')
+  - `{with}`: Additional related data to include ('completed_devices','devices','permissions','orders')
 - **Description:** Retrieve details about a specific client, including related information.
 
 ### CRUD Operations
