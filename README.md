@@ -36,6 +36,22 @@
         }
     }
     ```
+ ### 2. Logout
+
+- **Description:** The logout route allows users to terminate their current session and invalidate their authentication token.
+- **Request:**
+  - **Method:** POST
+    - **URL:** `url/api/logout`
+  - **Authorization:** Bearer Token
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+      "message": "Successful",
+      "body": null
+    }
+    ```
     ---
 
 ## Authenticated Routes
