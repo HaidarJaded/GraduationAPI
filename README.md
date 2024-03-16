@@ -43,7 +43,7 @@
 ### Show User
 - **Request:**
   - **Method:** GET
-  - **URL:** `url//api/users/{id}/{with}`
+  - **URL:** `url/api/users/{id}/{with}`
 - **Middleware:** `auth:sanctum`
 - **Parameters:**
   - `{id}`: User ID (integer)
