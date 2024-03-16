@@ -3,7 +3,7 @@
 ## Authentication
 
 
-### 2. Login
+### 1. Login
 
 - **Description:** Allows users to log in by providing their email and password.
 - **Request:**
@@ -40,7 +40,7 @@
 
 ## Authenticated Routes
 
-### Show User
+### 1. Show User
 - **Request:**
   - **Method:** GET
   - **URL:** `url/api/users/{id}/{with}`
@@ -50,7 +50,7 @@
   - `{with}`: Additional related data to include ('completed_devices','devices','permissions','orders')
 - **Description:** Retrieve details about a specific user with his related data.
 
-### Get all users
+### 2. Get all users
 
 - **Description:** Retrieves a list of all users from the server and the columns name send as  parameters to filtering data.
 - **Request:**
