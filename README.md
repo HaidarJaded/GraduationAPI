@@ -107,15 +107,15 @@
         "message": "Successful",
         "body": {
             "user": {
-                "email": "[user_email]",
-                "name": "[user_name]",
-                "last_name": "[user_last_name]",
-                "rule_id": "1",
-                "updated_at": "[timestamp]",
-                "created_at": "[timestamp]",
+                "email": [user_email],
+                "name": [user_name],
+                "last_name": [user_last_name],
+                "rule_id": 1,
+                "updated_at": [timestamp],
+                "created_at": [timestamp],
                 "id": [user_id]
             },
-            "token": "[user_token]"
+            "token": [user_token]
         }
     }
     ```
@@ -134,7 +134,7 @@
     {
         "message": "Successful",
         "body": {
-            "token": "[new_token]"
+            "token": [new_token]
         }
     }
     ```
