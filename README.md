@@ -95,8 +95,8 @@
     - `email`: [user_email]
     - `name`: [user_name]
     - `last_name`: [user_last_name]
-    - `password`: #123456789H
-    - `password_confirmation`: #123456789H
+    - `password`: [password]
+    - `password_confirmation`: [password_confirmation]
     - `rule_id`: 1
   - **Authorization:** Bearer Token
 - **Response:**
