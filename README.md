@@ -205,9 +205,9 @@
   - **Body:**
     ```json
     {
-    "message": "Successful",
-    "body": "Send email verification success"
-  }
+      "message": "Successful",
+      "body": "Send email verification success"
+    }
     ```
 
 ### 8. Email Verification Confirm
@@ -236,7 +236,7 @@
         "created_at": [time_stamp],
         "updated_at": [time_stamp]
     }
-  }
+    }
     ```
 
 ### 9. Get Authenticated User
