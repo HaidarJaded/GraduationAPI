@@ -190,7 +190,7 @@
         },
         "token": [user_token]
     }
-  }
+    }
     ```
 
 ### 7. Email Verification Request
