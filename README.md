@@ -1,100 +1,285 @@
-
 # API Documentation
 
 ## Authentication
 
-### Login
-- **Route:** `POST /api/login`
-- **Middleware:** `guest`
-- **Description:** Authenticate a user and generate a token for further requests.
 
----
+### 2. Login
+
+- **Description:** Allows users to log in by providing their email and password.
+- **Request:**
+  - **Method:** POST
+      - **URL:** `url/api/login`
+  - **Body:**
+    - `email`: [user_email]
+    - `password`: [user_password]
+  - **Authorization:** No Auth
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "message": "Successful",
+        "body": {
+            "auth": {
+                "id": [user_id],
+                "email": [user_email],
+                "name": [user_name],
+                "last_name": [user_last_name],
+                "email_verified_at": [time_stamp],
+                "rule_id": 1,
+                "phone": [user_phone],
+                "address": [user_address],
+                "created_at": [time_stamp],
+                "updated_at": [time_stamp]
+            },
+            "token": [user_token]
+        }
+    }
+    ```
+    ---
 
 ## Authenticated Routes
 
-### Get Current User
-- **Route:** `GET /api/user`
-- **Middleware:** `auth:sanctum`
-- **Description:** Retrieve information about the authenticated user.
-
 ### Show User
-- **Route:** `GET /api/users/{id}/{with}`
+- **Request:**
+  - **Method:** GET
+  - **URL:** `url//api/users/{id}/{with}`
 - **Middleware:** `auth:sanctum`
 - **Parameters:**
   - `{id}`: User ID (integer)
   - `{with}`: Additional related data to include ('completed_devices','devices','permissions','orders')
-- **Description:** Retrieve details about a specific user.
+- **Description:** Retrieve details about a specific user with his related data.
 
-### Show Client
-- **Route:** `GET /api/clients/{id}/{with}`
-- **Middleware:** `auth:sanctum`
-- **Parameters:**
-  - `{id}`: Client ID (integer)
-  - `{with}`: Additional related data to include ('completed_devices','devices','permissions','orders')
-- **Description:** Retrieve details about a specific client, including related information.
+### Get all users
 
-### CRUD Operations
+- **Description:** Retrieves a list of all users from the server and the columns name send as  parameters to filtering data.
+- **Request:**
+  - **Method:** GET
+  - **URL:** `url/api/users?{column_name}={column_value}&{column_name}={column_value}`
+  - **Example URL:** `url/api/users?name=hhh&email=@example`
+  - **Query Parameters:**
+    - `[column1_name]`: value
+    - `[column2_name]`: value
+  - **Authorization:** Bearer Token
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "message": "Successful",
+        "body": [
+            {
+                "id": 2,
+                "email": "nkautzer@example.net",
+                "name": "hhh",
+                "last_name": "Muller",
+                "email_verified_at": "2024-03-14T19:36:35.000000Z",
+                "rule_id": null,
+                "phone": null,
+                "address": null,
+                "created_at": "2024-03-14T19:36:35.000000Z",
+                "updated_at": "2024-03-15T11:28:46.000000Z"
+            }
+        ]
+    }
+    ```
 
-#### List Resources
-- **Route:** `GET /api/{resource}`
-- **Middleware:** `auth:sanctum`
-- **Parameters:** Query parameters for filtering data.
-- **Description:** Retrieve a list of resources.
 
-  ```php
-  public function get_data($model, Request $request): JsonResponse
-  ```
+### 3. Registering user
 
-  The `get_data` function in the `CRUDTrait` retrieves data from a model based on the provided request parameters. It checks the user's authorization to view any data of the specified model and filters the data based on the request parameters. The function supports filtering by column values and provides a response with the filtered data.
+- **Description:** Creates a new user.
+- **Request:**
+  - **Method:** POST
+      - **URL:** `url/api/users`
+  - **Body:**
+    - `email`: [user_email]
+    - `name`: [user_name]
+    - `last_name`: [user_last_name]
+    - `password`: #123456789H
+    - `password_confirmation`: #123456789H
+    - `rule_id`: 1
+  - **Authorization:** Bearer Token
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "message": "Successful",
+        "body": {
+            "user": {
+                "email": "[user_email]",
+                "name": "[user_name]",
+                "last_name": "[user_last_name]",
+                "rule_id": "1",
+                "updated_at": "[timestamp]",
+                "created_at": "[timestamp]",
+                "id": [user_id]
+            },
+            "token": "[user_token]"
+        }
+    }
+    ```
 
-#### Show Resource
-- **Route:** `GET /api/{resource}/{id}/{with}`
-- **Middleware:** `auth:sanctum`
-- **Parameters:**
-  - `{id}`: Resource ID (integer)
-  - `{with}`: Additional data to include (e.g., 'permissions', 'relations')
-- **Description:** Retrieve details about a specific resource.
+### 4. Refresh Token
 
-  ```php
-  public function show_data($model, $id, $with = []): JsonResponse
-  ```
+- **Description:** Refreshes the access token.
+- **Request:**
+  - **Method:** POST
+    - **URL:** `url/api/refresh_token`
+  - **Authorization:** Bearer Token
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "message": "Successful",
+        "body": {
+            "token": "[new_token]"
+        }
+    }
+    ```
 
-  The `show_data` function in the `CRUDTrait` retrieves and displays details of a specific item from the model. It checks the user's authorization to view the model, fetches the item by ID, and supports eager loading of specified relations. The function provides a response with the retrieved data.
+### 5. Reset Password Request
 
-#### Create Resource
-- **Route:** `POST /api/{resource}`
-- **Middleware:** `auth:sanctum`
-- **Parameters:** Resource data in the request body.
-- **Description:** Create a new resource.
+- **Description:** Initiates a password reset process.
+- **Request:**
+  - **Method:** POST
+    - **URL:** `url/api/password/reset/request`
+  - **Body:**
+    - `email`: [user_email]
+    - `front_url`: [front_end_url]
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "message": "Successful",
+        "body": "Reset link sent to your email"
+    }
+    ```
 
-  ```php
-  public function store_data($request, $model): JsonResponse
-  ```
+### 6. Reset Password Confirm
 
-  The `store_data` function in the `CRUDTrait` creates a new item in the model. It checks the user's authorization to create an item, creates the item with the provided request data, and returns a response with the created item.
+- **Description:** Confirms the reset of a user's password.
+- **Request:**
+  - **Method:** POST
+    - **URL:** `url/api/password/reset/confirm`
+  - **Body:**
+    - `token`: [reset_token]
+    - `email`: [user_email]
+    - `password`: [new_password]
+    - `password_confirmation`: [new_password_confirmation]
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+    "message": "Password reset successfully",
+    "body": {
+        "user": {
+            "id": [user_id],
+            "email": [user_email],
+            "name": [user_name],
+            "last_name": [user_last_name],
+            "email_verified_at": [time_stamp],
+            "rule_id": 1,
+            "phone": [user_phone],
+            "address": [user_address],
+            "created_at": [time_stamp],
+            "updated_at": [time_stamp]
+        },
+        "token": [user_token]
+    }
+  }
+    ```
 
-#### Update Resource
-- **Route:** `PUT /api/{resource}/{id}`
-- **Middleware:** `auth:sanctum`
-- **Parameters:**
-  - `{id}`: Resource ID (integer)
-- **Description:** Update information for a specific resource.
+### 7. Email Verification Request
 
-  ```php
-  public function update_data($request, $id, $model): JsonResponse
-  ```
+- **Description:** Requests email verification.
+- **Request:**
+  - **Method:** GET
+    - **URL:** `url/api/email/verify/request`
+  - **Authorization:** Bearer Token
+- **Response:** 
+- **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+    "message": "Successful",
+    "body": "Send email verification success"
+  }
+    ```
 
-  The `update_data` function in the `CRUDTrait` updates an existing item in the model. It checks the user's authorization to update the model, fetches the item by ID, updates the item with the provided request data, and returns a response with the updated item.
+### 8. Email Verification Confirm
 
-#### Delete Resource
-- **Route:** `DELETE /api/{resource}/{id}`
-- **Middleware:** `auth:sanctum`
-- **Parameters:**
-  - `{id}`: Resource ID (integer)
-- **Description:** Delete a specific resource.
+- **Description:** Confirms email verification.
+- **Request:**
+  - **Method:** POST
+    - **URL:** `url/api/email/verify/confirm`
+  - **Body:**
+    - `code`: [verification_code]
+- **Response:** 
+ **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+    "message": "Verification successful",
+    "body": {
+        "id": [user_id],
+        "email": [user_email],
+        "name": [user_name],
+        "last_name": [user_last_name],
+        "email_verified_at": [time_stamp],
+        "rule_id": 1,
+        "phone": [user_phone],
+        "address": [user_address],
+        "created_at": [time_stamp],
+        "updated_at": [time_stamp]
+    }
+  }
+    ```
 
-  ```php
-  public function delete_data($id, $model): JsonResponse
-  ```
+### 9. Get Authenticated User
 
-  The `delete_data` function in the `CRUDTrait` deletes a specific item from the model. It checks the user's authorization to delete the model, fetches the item by ID, deletes the item, and returns a response indicating the success of the deletion.
+- **Description:** Retrieves information about the authenticated user.
+- **Request:**
+  - **Method:** GET
+  - **URL:** `url/api/user`
+  - **Authorization:** Bearer Token
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "id": [user_id],
+        "email": [user_email],
+        "name": [user_name],
+        "last_name": [user_last_name],
+        "email_verified_at": [time_stamp],
+        "rule_id": 1,
+        "phone": [user_phone],
+        "address": [user_address],
+        "created_at": [time_stamp],
+        "updated_at": [time_stamp]
+    }
+    ```
+
+### 10. Delete User
+
+- **Description:**
+
+ Deletes a user account.
+- **Request:**
+  - **Method:** DELETE
+  - **URL:** `url/api/users/[user_id]`
+  - **Authorization:** Bearer Token
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:**
+    ```json
+    {
+        "message": "User deleted successfully"
+    }
+    ```
+
+###All models apply the same previous operations.
